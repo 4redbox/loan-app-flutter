@@ -1,0 +1,96 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "org.jetbrains.kotlin.android" 
+}
+
+// ✅ Ensure Flutter SDK properties exist
+ext.flutter = project.findProperty('flutter') ?: [:]
+
+android {
+    // compileSdkVersion 34
+    namespace "com.example.simple_app"
+
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    defaultConfig {
+        applicationId "com.example.simple_app"
+        minSdkVersion 23
+        // targetSdkVersion 34
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/debug.keystore") // ✅ Ensure debug keystore is available
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.2.0"
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+        freeCompilerArgs += ["-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"]
+    }
+}
+    
+flutter {
+    source "../.."
+}
+
+dependencies {
+    // ✅ Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:33.9.0')
+
+    // ✅ Add Firebase dependencies if needed
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // Enable Compose dependencies, and update to match the compiler version.
+    implementation "androidx.compose.ui:ui:1.4.3"
+    implementation "androidx.compose.material:material:1.4.3"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.4.3"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.4.3"
+    implementation "androidx.compose.material:material-icons-extended:1.4.3"
+
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1' //Updated version
+    implementation 'androidx.activity:activity-compose:1.7.2' //Updated version
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.3" // Add compose test
+}
+
+configurations.implementation {
+    resolutionStrategy {
+        force 'androidx.appcompat:appcompat:1.6.1'
+    }
+}

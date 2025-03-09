@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="simple_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>simple_app</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- ✅ Add Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js"></script>
+
+  <script>
+    // ✅ Initialize Firebase
+    var firebaseConfig = {
+      apiKey: "AIzaSyA6B5vFPd2SvIs7MfbTGFuzzwtZdAda3Bo",
+      authDomain: "simple-app-notify.firebaseapp.com",
+      projectId: "simple-app-notify",
+      storageBucket: "simple-app-notify.appspot.com",
+      messagingSenderId: "780986996030",
+      appId: "1:780986996030:web:9fa10ba7d3c0e1203e486f"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // ✅ Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then((registration) => {
+          console.log('🔹 Service Worker registered:', registration);
+        })
+        .catch((err) => {
+          console.error('❌ Service Worker registration failed:', err);
+        });
+    }
+
+    // ✅ Handle foreground notifications
+    const messaging = firebase.messaging();
+    messaging.onMessage((payload) => {
+      console.log("🔔 Foreground Message:", payload);
+      new Notification(payload.notification.title, {
+        body: payload.notification.body,
+        icon: "/favicon.png"
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "780986996030",
+    "project_id": "simple-app-notify",
+    "storage_bucket": "simple-app-notify.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780986996030:android:8238f115c374eb783e486f",
+        "android_client_info": {
+          "package_name": "com.example.simple_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg_JylIXctWFhDIpMUAliBgFjfLfUnZiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
